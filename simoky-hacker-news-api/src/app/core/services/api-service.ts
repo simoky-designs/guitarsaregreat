@@ -10,7 +10,7 @@ export class ApiService {
 
   private readonly apiUrl = 'assets/get-news.json';
 
-  getNews(page = 2): Observable<NewsResponse> {
+  getNews(page = 1): Observable<NewsResponse> {
     //     return this.http.get<NewsResponse>(
     //   `${this.apiUrl}?page=${page}`
     // );
