@@ -1,0 +1,116 @@
+{
+  "page": 2,
+  "nextPage": 3,
+  "items": [
+    {
+      "id": 49743483,
+      "rank": 31,
+      "title": "Infinite-Parameter LLMs: Generating and Adapting Weights from Live Data",
+      "url": "https://arxiv.org/abs/2609.18842",
+      "domain": "arxiv.org",
+      "author": "Betelbuddy",
+      "points": 134,
+      "comments": 38,
+      "postedAt": "2026-09-17T16:55:14"
+    },
+    {
+      "id": 49743567,
+      "rank": 32,
+      "title": "Zettascale (YC S24) Is Hiring ASIC/FPGA Engineers to Build Chips for ASI",
+      "url": "https://zscc.ai/careers?job_id=109821",
+      "domain": "zscc.ai",
+      "author": null,
+      "points": null,
+      "comments": null,
+      "postedAt": "2026-09-17T17:00:59"
+    },
+    {
+      "id": 49740260,
+      "rank": 33,
+      "title": "The American Religion of Self-Storage Facilities",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/the-american-religion-of-self-storage-facilities",
+      "domain": "newyorker.com",
+      "author": "pseudolus",
+      "points": 224,
+      "comments": 373,
+      "postedAt": "2026-09-17T13:12:28"
+    },
+    {
+      "id": 49742353,
+      "rank": 34,
+      "title": "Rate limits on GitLab.com are changing",
+      "url": "https://about.gitlab.com/blog/rate-limit-change-2026/",
+      "domain": "about.gitlab.com",
+      "author": "darkwater",
+      "points": 163,
+      "comments": 116,
+      "postedAt": "2026-09-17T15:33:54"
+    },
+    {
+      "id": 49714596,
+      "rank": 35,
+      "title": "Speeding up gearhash on ARM64",
+      "url": "https://sam.dev/blog/gearhash-on-arm64",
+      "domain": "sam.dev",
+      "author": "pranitha_m",
+      "points": 4,
+      "comments": 0,
+      "postedAt": "2026-09-15T16:02:15"
+    },
+    {
+      "id": 49723544,
+      "rank": 36,
+      "title": "I Put Nam A2-Lite Inside an iRig HD X",
+      "url": "https://playtaurus.com/blog/i-put-nam-a2-lite-inside-an-irig-hd-x",
+      "domain": "playtaurus.com",
+      "author": "arbayi",
+      "points": 24,
+      "comments": 6,
+      "postedAt": "2026-09-16T08:28:10"
+    },
+    {
+      "id": 49714096,
+      "rank": 37,
+      "title": "TSMC revealing details about next gen A14 node",
+      "url": "https://iedm26.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=331",
+      "domain": "mapyourshow.com",
+      "author": "osnium123",
+      "points": 105,
+      "comments": 45,
+      "postedAt": "2026-09-15T15:31:55"
+    },
+    {
+      "id": 49746626,
+      "rank": 38,
+      "title": "How SpaceX Streamlined the Raptor Engine",
+      "url": "https://www.construction-physics.com/p/how-spacex-streamlined-the-raptor",
+      "domain": "construction-physics.com",
+      "author": "JumpCrisscross",
+      "points": 35,
+      "comments": 2,
+      "postedAt": "2026-09-17T21:14:19"
+    },
+    {
+      "id": 49711544,
+      "rank": 39,
+      "title": "Show HN: An e-ink frame that hears birds and draws them as 1800s illustrations",
+      "url": "https://github.com/arnegiacomo/fugleramme",
+      "domain": "github.com/arnegiacomo",
+      "author": "arnemunthekaas",
+      "points": 2281,
+      "comments": 256,
+      "postedAt": "2026-09-15T12:31:10"
+    },
+    {
+      "id": 49740105,
+      "rank": 40,
+      "title": "Show HN: Share your AI Setup, Learn from others",
+      "url": "https://mysetup.ai/",
+      "domain": "mysetup.ai",
+      "author": "steveybrown",
+      "points": 207,
+      "comments": 119,
+      "postedAt": "2026-09-17T13:01:44"
+    }
+  ]
+}

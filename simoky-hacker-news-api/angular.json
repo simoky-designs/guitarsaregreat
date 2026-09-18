@@ -27,6 +27,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "get-news.json",
+                "input": "src/app/core/mockdata",
+                "output": "assets"
               }
             ],
             "styles": [
