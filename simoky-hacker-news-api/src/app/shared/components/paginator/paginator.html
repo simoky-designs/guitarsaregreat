@@ -1,1 +1,10 @@
-<p>paginator works!</p>
+<mat-paginator
+	[length]="length"
+	[pageSize]="pageSize"
+	[pageIndex]="pageIndex"
+	[hidePageSize]="hidePageSize"
+	[pageSizeOptions]="pageSizeOptions"
+	(page)="pageChange.emit($event)"
+	[attr.aria-label]="ariaLabel"
+>
+</mat-paginator>

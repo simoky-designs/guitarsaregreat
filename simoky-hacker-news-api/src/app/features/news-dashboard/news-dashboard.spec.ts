@@ -1,5 +1,7 @@
+import '@angular/compiler';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiService } from '../../core/services/api-service';
 import { NewsResponse } from '../../core/interfaces/news';
 import { NewsDashboard } from './news-dashboard';
@@ -74,14 +76,9 @@ describe('NewsDashboard', () => {
     expect(component.loadingService.isLoading()).toBe(false);
   });
 
-  it('should toggle an expanded row', () => {
-    const item = newsResponse.items[0];
-
-    component.toggle(item);
-    expect(component.isExpanded(item)).toBe(true);
-
-    component.toggle(item);
-    expect(component.isExpanded(item)).toBe(false);
+  it('should render the reusable table and paginator', () => {
+    expect(fixture.nativeElement.querySelector('app-table')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('app-paginator')).not.toBeNull();
   });
 
   it('should log the selected page', () => {

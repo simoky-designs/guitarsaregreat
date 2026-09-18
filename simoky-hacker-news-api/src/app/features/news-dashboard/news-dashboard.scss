@@ -1,40 +1,4 @@
-.example-element-row {
-	cursor: pointer;
-}
-
-.example-detail-row {
-	height: 0;
-}
-
-.example-element-detail-wrapper {
-	display: grid;
-	grid-template-rows: 0fr;
-	overflow: hidden;
-	transition: grid-template-rows 225ms ease-in-out;
-}
-
-.example-element-detail-wrapper-expanded {
-	grid-template-rows: 1fr;
-}
-
-.example-element-detail {
-	min-height: 0;
-	padding: 0 24px;
-}
-
-.example-element-detail-wrapper-expanded .example-element-detail {
-	padding: 16px 24px;
-}
-
-.example-element-diagram {
+.element-diagram {
 	display: grid;
 	gap: 8px;
-}
-
-.example-toggle-button mat-icon {
-	transition: transform 225ms ease-in-out;
-}
-
-.example-toggle-button-expanded mat-icon {
-	transform: rotate(180deg);
 }

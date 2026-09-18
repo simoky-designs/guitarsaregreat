@@ -1,21 +1,36 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import '@angular/compiler';
+import { MatTableDataSource } from '@angular/material/table';
+import { describe, expect, it } from 'vitest';
 import { Table } from './table';
 
 describe('Table', () => {
-  let component: Table;
-  let fixture: ComponentFixture<Table>;
+  it('should create with reusable defaults', () => {
+    const component = new Table();
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Table],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Table);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
+    expect(component).toBeTruthy();
+    expect(component.columns).toEqual([]);
+    expect(component.dataSource).toBeInstanceOf(MatTableDataSource);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should expose columns with an expand column', () => {
+    const component = new Table();
+    component.columns = ['title', 'author'];
+
+    expect(component.columnsWithExpand).toEqual(['title', 'author', 'expand']);
+  });
+
+  it('should toggle and emit the expanded row', () => {
+    const component = new Table();
+    const row = { id: 1 };
+    let emittedRow: unknown;
+
+    component.rowToggled.subscribe((value) => (emittedRow = value));
+    component.toggle(row);
+
+    expect(component.expandedElement).toBe(row);
+    expect(emittedRow).toBe(row);
+
+    component.toggle(row);
+    expect(component.expandedElement).toBeNull();
   });
 });

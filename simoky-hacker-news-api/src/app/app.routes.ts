@@ -1,18 +1,23 @@
 import { Routes } from '@angular/router';
-import { NewsDashboard } from './features/news-dashboard/news-dashboard';
-import { Login } from './features/login/login';
 
 export const routes: Routes = [
   {
     path: '',
-    component: NewsDashboard,
+    loadComponent: () =>
+      import('./features/news-dashboard/news-dashboard').then(
+        ({ NewsDashboard }) => NewsDashboard,
+      ),
   },
   {
     path: 'news-dashboard',
-    component: NewsDashboard,
+    loadComponent: () =>
+      import('./features/news-dashboard/news-dashboard').then(
+        ({ NewsDashboard }) => NewsDashboard,
+      ),
   },
   {
     path: 'login',
-    component: Login,
+    loadComponent: () =>
+      import('./features/login/login').then(({ Login }) => Login),
   },
 ];
