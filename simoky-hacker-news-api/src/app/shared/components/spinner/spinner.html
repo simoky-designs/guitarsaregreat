@@ -1,5 +1,5 @@
 @if (loadingService.isLoading()) {
-  <div class="spinner-container" aria-label="Loading" role="status">
+  <div class="spinner-container" [attr.aria-label]="loadingLabel" role="status">
     <mat-spinner diameter="100"></mat-spinner>
   </div>
 }

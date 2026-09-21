@@ -8,7 +8,7 @@
 	multiTemplateDataRows
 	class="mat-shadow-2"
 >
-	@for (column of columnEntries; track column.key) {
+	@for (column of columns; track column.key) {
 		<ng-container matColumnDef="{{ column.key }}">
 			<th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }}</th>
 			<td mat-cell *matCellDef="let element">{{ element[column.key] }}</td>
@@ -16,11 +16,11 @@
 	}
 
 	<ng-container matColumnDef="expand">
-		<th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+		<th mat-header-cell *matHeaderCellDef [attr.aria-label]="tableAriaLabels.rowActions">&nbsp;</th>
 		<td mat-cell *matCellDef="let element">
 			<button
 				matIconButton
-				aria-label="expand row"
+				[attr.aria-label]="tableAriaLabels.expandRow"
 				(click)="toggle(element); $event.stopPropagation()"
 				class="toggle-button"
 				[class.toggle-button-expanded]="isExpanded(element)"

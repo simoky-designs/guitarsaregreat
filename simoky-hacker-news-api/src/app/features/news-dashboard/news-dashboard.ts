@@ -8,6 +8,12 @@ import { PostedAtDatePipe } from '../../shared/pipes/date.pipe';
 import { Paginator } from '../../shared/components/paginator/paginator';
 import { Table } from '../../shared/components/table/table';
 import { NewsQueryService } from '../../core/services/news-query-service';
+import {
+  DASHBOARD_TITLE,
+  DETAIL_LABELS,
+  NEWS_TABLE_COLUMNS,
+  NO_DATA_MESSAGE,
+} from '../../shared/const/app-constants';
 
 @Component({
   imports: [PostedAtDatePipe, Paginator, Table],
@@ -20,11 +26,10 @@ export class NewsDashboard implements OnInit {
   readonly queryService = inject(NewsQueryService);
   readonly loadingService = inject(LoadingService);
   dataSource = new MatTableDataSource<NewsItem>([]);
-  columnsToDisplay: Record<string, string> = {
-    Title: 'title',
-    Author: 'by',
-    Points: 'score',
-  };
+  columnsToDisplay = NEWS_TABLE_COLUMNS;
+  readonly detailLabels = DETAIL_LABELS;
+  readonly noDataMessage = NO_DATA_MESSAGE;
+  title = signal(DASHBOARD_TITLE);
   showFirstLastButtons = signal(false);
   pageSizeOptions = this.queryService.pageSizeOptions();
   pageIndex = this.queryService.pageIndex;
@@ -40,10 +45,12 @@ export class NewsDashboard implements OnInit {
 
   onPageChange(event: PageEvent): void {
     this.queryService.onPageChange(event);
+    this.dataSource.data = this.queryService.visibleItems();
   }
 
   onSortChange(sort: Sort): void {
     this.queryService.onSortChange(sort);
+    this.dataSource.data = this.queryService.visibleItems();
   }
 }
 

@@ -12,7 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
-
+import { TABLE_ARIA_LABELS } from '../../const/app-constants';
+import { TableColumn } from '../../interfaces/componet-interfaces';
 @Component({
   imports: [NgTemplateOutlet, MatButtonModule, MatIconModule, MatSortModule, MatTableModule],
   selector: 'app-table',
@@ -22,7 +23,7 @@ import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/
 })
 export class Table<T extends object> implements OnChanges {
   @Input() dataSource = new MatTableDataSource<T>([]);
-  @Input() columns: Record<string, string> = {};
+  @Input() columns: readonly TableColumn[] = [];
   @Input() sortActive = '';
   @Input() sortDirection: SortDirection = '';
   @Input() detailTemplate?: TemplateRef<unknown>;
@@ -31,9 +32,10 @@ export class Table<T extends object> implements OnChanges {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<T>;
   expandedElements = new Set<T>();
+  readonly tableAriaLabels = TABLE_ARIA_LABELS;
 
-  get columnEntries(): { key: string; label: string }[] {
-    return Object.entries(this.columns).map(([label, key]) => ({ key, label }));
+  get columnEntries(): TableColumn[] {
+    return [...this.columns];
   }
 
   get columnsWithExpand(): string[] {

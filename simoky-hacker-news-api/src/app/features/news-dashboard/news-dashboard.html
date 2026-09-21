@@ -2,7 +2,7 @@
   <header class="page-header"></header>
   @if (!queryService.loading() && dataSource.data.length === 0) {
     <div class="no-data-container">
-      <p>No data available.</p>
+      <p>{{ noDataMessage }}</p>
     </div>
   } @else if (!queryService.loading()) {
     <app-table
@@ -18,13 +18,13 @@
     <ng-template #expandedDetail let-element>
       <div class="element-diagram">
         <div>
-          <strong>URL:</strong>
+          <strong>{{ detailLabels.url }}</strong>
           <a [href]="element.url" target="_blank" rel="noopener">{{ element.url }}</a>
         </div>
-        <div><strong>Domain:</strong> {{ element.domain || '-' }}</div>
-        <div><strong>Points:</strong> {{ element.points ?? 0 }}</div>
-        <div><strong>Comments:</strong> {{ element.comments ?? 0 }}</div>
-        <div><strong>Posted:</strong> {{ element.postedAt | date }}</div>
+        <div><strong>{{ detailLabels.domain }}</strong> {{ element.domain || '-' }}</div>
+        <div><strong>{{ detailLabels.points }}</strong> {{ element.points ?? 0 }}</div>
+        <div><strong>{{ detailLabels.comments }}</strong> {{ element.comments ?? 0 }}</div>
+        <div><strong>{{ detailLabels.posted }}</strong> {{ element.postedAt | date }}</div>
       </div>
     </ng-template>
 

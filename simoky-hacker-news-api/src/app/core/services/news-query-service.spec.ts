@@ -6,13 +6,18 @@ import { NewsItem } from '../interfaces/news';
 import { ApiService } from './api-service';
 import { NewsQueryService } from './news-query-service';
 
-const createItems = (page: number): NewsItem[] =>
-  Array.from({ length: 100 }, (_, index) => ({
-    id: (page - 1) * 100 + index + 1,
-    score: (page - 1) * 100 + index + 1,
-    title: `Story ${page}-${index + 1}`,
-    by: index % 2 === 0 ? 'alice' : 'bob',
-  }));
+const createItems = (page: number): NewsItem[] => {
+  const offset = (page - 1) * 100;
+  return Array.from({ length: 100 }, (_, index) => {
+    const id = offset + index + 1;
+    return {
+      id,
+      score: id,
+      title: `Story ${page}-${index + 1}`,
+      by: index % 2 === 0 ? 'alice' : 'bob',
+    };
+  });
+};
 
 class MockApiService {
   readonly storyIdCalls: string[] = [];
@@ -40,10 +45,7 @@ describe('NewsQueryService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        NewsQueryService,
-        { provide: ApiService, useClass: MockApiService },
-      ],
+      providers: [NewsQueryService, { provide: ApiService, useClass: MockApiService }],
     });
 
     service = TestBed.inject(NewsQueryService);
@@ -66,9 +68,7 @@ describe('NewsQueryService', () => {
   });
 
   it('exposes an error and stops loading when a normal request fails', () => {
-    vi.spyOn(apiService, 'getStory').mockReturnValue(
-      throwError(() => new Error('Request failed')),
-    );
+    vi.spyOn(apiService, 'getStory').mockReturnValue(throwError(() => new Error('Request failed')));
 
     service.load();
 

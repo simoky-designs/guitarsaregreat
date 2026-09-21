@@ -8,13 +8,16 @@ describe('Table', () => {
     const component = new Table();
 
     expect(component).toBeTruthy();
-    expect(component.columns).toEqual({});
+    expect(component.columns).toEqual([]);
     expect(component.dataSource).toBeInstanceOf(MatTableDataSource);
   });
 
   it('should expose columns with an expand column', () => {
     const component = new Table();
-    component.columns = { Title: 'title', Author: 'by' };
+    component.columns = [
+      { key: 'title', label: 'Title' },
+      { key: 'by', label: 'Author' },
+    ];
 
     expect(component.columnsWithExpand).toEqual(['title', 'by', 'expand']);
     expect(component.columnEntries).toEqual([

@@ -3,21 +3,16 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () =>
-      import('./features/news-dashboard/news-dashboard').then(
-        ({ NewsDashboard }) => NewsDashboard,
-      ),
+    redirectTo: 'top',
+    pathMatch: 'full',
   },
   {
-    path: 'news-dashboard',
+    path: 'top',
     loadComponent: () =>
-      import('./features/news-dashboard/news-dashboard').then(
-        ({ NewsDashboard }) => NewsDashboard,
-      ),
+      import('./features/news-dashboard/news-dashboard').then(({ NewsDashboard }) => NewsDashboard),
   },
   {
     path: 'login',
-    loadComponent: () =>
-      import('./features/login/login').then(({ Login }) => Login),
+    loadComponent: () => import('./features/login/login').then(({ Login }) => Login),
   },
 ];

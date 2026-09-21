@@ -2,14 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NewsItem } from '../interfaces/news';
+import { StoryType } from '../../shared/const/app-constants';
+import { environment  } from '../../../environments/environment';
+
 
 @Service()
 export class ApiService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://hacker-news.firebaseio.com/v0';
+  private readonly apiUrl = environment .apiUrl;
 
-  getStoryIds(type: 'top' | 'new' | 'best'): Observable<number[]> {
+  getStoryIds(type: StoryType): Observable<number[]> {
     return this.http.get<number[]>(`${this.apiUrl}/${type}stories.json`);
   }
 
