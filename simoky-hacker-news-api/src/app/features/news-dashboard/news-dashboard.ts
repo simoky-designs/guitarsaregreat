@@ -25,7 +25,6 @@ export class NewsDashboard implements OnInit {
     Author: 'by',
     Points: 'score',
   };
-  title = signal('Hacker News');
   showFirstLastButtons = signal(false);
   pageSizeOptions = this.queryService.pageSizeOptions();
   pageIndex = this.queryService.pageIndex;
@@ -41,12 +40,10 @@ export class NewsDashboard implements OnInit {
 
   onPageChange(event: PageEvent): void {
     this.queryService.onPageChange(event);
-    this.dataSource.data = this.queryService.visibleItems();
   }
 
   onSortChange(sort: Sort): void {
     this.queryService.onSortChange(sort);
-    this.dataSource.data = this.queryService.visibleItems();
   }
 }
 

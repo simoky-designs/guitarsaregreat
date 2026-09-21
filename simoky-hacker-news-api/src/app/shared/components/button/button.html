@@ -1,8 +1,9 @@
 <button
-	matButton
+	matButton="outlined"
 	[type]="type"
 	[disabled]="disabled"
 	(click)="clicked.emit($event)"
+	class="no-break"
 >
 	<ng-content></ng-content>
 </button>

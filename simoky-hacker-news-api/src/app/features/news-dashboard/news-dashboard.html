@@ -1,9 +1,5 @@
 <div class="page">
-  <header class="page-header">
-    <div>
-      <h3>{{ title() }}</h3>
-    </div>
-  </header>
+  <header class="page-header"></header>
   @if (!queryService.loading() && dataSource.data.length === 0) {
     <div class="no-data-container">
       <p>No data available.</p>
