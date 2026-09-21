@@ -1,0 +1,8 @@
+<button
+	matButton
+	[type]="type"
+	[disabled]="disabled"
+	(click)="clicked.emit($event)"
+>
+	<ng-content></ng-content>
+</button>

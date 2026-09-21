@@ -4,15 +4,18 @@
       <h3>{{ title() }}</h3>
     </div>
   </header>
-  @if (!loadingService.isLoading() && dataSource.data.length === 0) {
+  @if (!queryService.loading() && dataSource.data.length === 0) {
     <div class="no-data-container">
       <p>No data available.</p>
     </div>
-  } @else if (!loadingService.isLoading()) {
+  } @else if (!queryService.loading()) {
     <app-table
       [dataSource]="dataSource"
       [columns]="columnsToDisplay"
+      sortActive="score"
+      sortDirection="asc"
       [detailTemplate]="expandedDetail"
+      (sortChange)="onSortChange($event)"
     >
     </app-table>
 
@@ -30,10 +33,11 @@
     </ng-template>
 
     <app-paginator
-      [length]="news()?.items?.length ?? 0"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
-      [pageSizeOptions]="[10, 30, 60]"
+      [length]="queryService.response()?.total ?? 0"
+      [pageSize]="pageSize()"
+      [pageIndex]="pageIndex()"
+      [showFirstLastButtons]="showFirstLastButtons()"
+      [pageSizeOptions]="pageSizeOptions"
       (pageChange)="onPageChange($event)"
     ></app-paginator>
   }

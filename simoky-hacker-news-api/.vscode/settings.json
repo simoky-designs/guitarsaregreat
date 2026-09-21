@@ -1,0 +1,13 @@
+{
+  "eslint.useFlatConfig": true,
+  "eslint.run": "onType",
+  "eslint.validate": [
+    "typescript",
+    "html"
+  ],
+  "eslint.workingDirectories": [
+    {
+      "mode": "location"
+    }
+  ]
+}

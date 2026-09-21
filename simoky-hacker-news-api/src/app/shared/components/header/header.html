@@ -1,3 +1,13 @@
-  <header class="global-header">
-      <h1>Simoky Hacker News</h1>
-  </header>
+<header class="global-header">
+  <h1>Simoky Hacker News</h1>
+  <div class="nav-bar">
+    <app-button type="submit" [disabled]="false" (clicked)="setStoryType('new')">Top Stories</app-button>
+    <app-button type="submit" [disabled]="false" (clicked)="setStoryType('new')">New Stories</app-button>
+    <app-button type="submit" [disabled]="false" (clicked)="setStoryType('best')">Best stories</app-button>
+    <app-button type="submit" [disabled]="true">Comments</app-button>
+    <app-button type="submit" [disabled]="true">ask</app-button>
+    <app-button type="submit" [disabled]="true">show</app-button>
+    <app-button type="submit" [disabled]="true">jobs</app-button>
+    <app-button type="submit" [disabled]="true">submit</app-button>
+  </div>
+</header>

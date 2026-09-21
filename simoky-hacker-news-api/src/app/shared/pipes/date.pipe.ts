@@ -12,6 +12,10 @@ export class PostedAtDatePipe implements PipeTransform {
     value: string | null | undefined,
     format = 'mediumDate'
   ): string {
+    if (!value || Number.isNaN(Date.parse(value))) {
+      return '-';
+    }
+
     return this.datePipe.transform(value, format) ?? '-';
   }
 }

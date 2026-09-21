@@ -9,7 +9,7 @@ describe('Paginator', () => {
 
     expect(component).toBeTruthy();
     expect(component.pageSize).toBe(30);
-    expect(component.pageSizeOptions).toEqual([10, 30, 65, 100]);
+    expect(component.pageSizeOptions).toEqual([10, 30, 60]);
   });
 
   it('should emit page changes', () => {
@@ -17,8 +17,8 @@ describe('Paginator', () => {
     const pageEvent = { pageIndex: 1, pageSize: 30, length: 100 } as PageEvent;
     let emittedEvent: PageEvent | undefined;
 
-    component.page.subscribe((event) => (emittedEvent = event));
-    component.page.emit(pageEvent);
+    component.pageChange.subscribe((event) => (emittedEvent = event));
+    component.pageChange.emit(pageEvent);
 
     expect(emittedEvent).toBe(pageEvent);
   });

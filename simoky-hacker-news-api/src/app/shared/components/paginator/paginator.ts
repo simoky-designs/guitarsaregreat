@@ -13,7 +13,8 @@ export class Paginator {
   @Input() pageSize = 30;
   @Input() pageIndex = 0;
   @Input() hidePageSize = false;
-  @Input() pageSizeOptions: number[] = [10, 30, 65, 100];
+  @Input() showFirstLastButtons = false;
+  @Input() pageSizeOptions: number[] = [10, 30, 60];
   @Input() ariaLabel = 'Select page';
   @Output() pageChange = new EventEmitter<PageEvent>();
 }

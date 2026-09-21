@@ -1,17 +1,22 @@
 export interface NewsResponse {
   page: number;
   nextPage: number | null;
+  total: number;
   items: NewsItem[];
 }
 
 export interface NewsItem {
   id: number;
-  rank?: number;
+  type?: 'story' | 'comment' | 'job' | 'poll' | 'pollopt';
+  by?: string;
+  time?: number;
   title?: string;
+  text?: string;
   url?: string;
-  domain?: string;
-  author?: string | null;
-  points?: number | null;
-  comments?: number | null;
-  postedAt?: string;
+  score?: number;
+  descendants?: number;
+  kids?: number[];
+  parent?: number;
+  parts?: number[];
+  poll?: number;
 }

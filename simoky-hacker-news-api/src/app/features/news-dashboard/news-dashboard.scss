@@ -2,3 +2,11 @@
 	display: grid;
 	gap: 8px;
 }
+
+.no-data-container{
+	display: flex;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+}

@@ -1,19 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NewsResponse } from '../interfaces/news';
+import { NewsItem } from '../interfaces/news';
 
 @Service()
 export class ApiService {
-
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'assets/get-news.json';
+  private readonly apiUrl = 'https://hacker-news.firebaseio.com/v0';
 
-  getNews(page = 1): Observable<NewsResponse> {
-    //     return this.http.get<NewsResponse>(
-    //   `${this.apiUrl}?page=${page}`
-    // );
-    return this.http.get<NewsResponse>(this.apiUrl);
+  getStoryIds(type: 'top' | 'new' | 'best'): Observable<number[]> {
+    return this.http.get<number[]>(`${this.apiUrl}/${type}stories.json`);
+  }
+
+  getStory(id: number): Observable<NewsItem> {
+    return this.http.get<NewsItem>(`${this.apiUrl}/item/${id}.json`);
   }
 }

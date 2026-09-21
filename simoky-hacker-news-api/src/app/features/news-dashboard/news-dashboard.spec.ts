@@ -1,34 +1,26 @@
 import '@angular/compiler';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiService } from '../../core/services/api-service';
-import { NewsResponse } from '../../core/interfaces/news';
+import { NewsItem } from '../../core/interfaces/news';
 import { NewsDashboard } from './news-dashboard';
 
-const newsResponse: NewsResponse = {
-  page: 1,
-  nextPage: 2,
-  items: [
-    {
-      id: 1,
-      rank: 1,
-      title: 'Test story',
-      url: 'https://example.com/story',
-      domain: 'example.com',
-      author: 'tester',
-      points: 10,
-      comments: 2,
-      postedAt: '2026-09-18T00:00:00',
-    },
-  ],
-};
-
 class MockApiService {
-  response$ = of(newsResponse);
+  readonly storyCalls: number[] = [];
 
-  getNews() {
-    return this.response$;
+  getStoryIds(): Observable<number[]> {
+    return of(Array.from({ length: 250 }, (_, index) => index + 1));
+  }
+
+  getStory(id: number): Observable<NewsItem> {
+    this.storyCalls.push(id);
+    return of({
+      id,
+      score: id,
+      title: `Story ${id}`,
+      by: 'tester',
+    });
   }
 }
 
@@ -54,9 +46,10 @@ describe('NewsDashboard', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load and render news', () => {
-    expect(component.news()).toEqual(newsResponse);
-    expect(component.dataSource.data).toEqual(newsResponse.items);
+  it('should load and render the first story chunk', () => {
+    expect(component.queryService.response()?.items).toHaveLength(100);
+    expect(component.queryService.response()?.items[0].id).toBe(1);
+    expect(component.dataSource.data).toHaveLength(25);
     expect(fixture.nativeElement.querySelector('table')).not.toBeNull();
     expect(component.loadingService.isLoading()).toBe(false);
   });
@@ -69,10 +62,12 @@ describe('NewsDashboard', () => {
   });
 
   it('should expose an error when loading fails', () => {
-    apiService.response$ = throwError(() => new Error('Request failed'));
-    component.loadNews();
+    vi.spyOn(apiService, 'getStory').mockReturnValue(
+      throwError(() => new Error('Request failed')),
+    );
+    component.queryService.load();
 
-    expect(component.error()).toBe('Failed to load news');
+    expect(component.queryService.error()).toBe('Failed to load news');
     expect(component.loadingService.isLoading()).toBe(false);
   });
 
@@ -81,12 +76,20 @@ describe('NewsDashboard', () => {
     expect(fixture.nativeElement.querySelector('app-paginator')).not.toBeNull();
   });
 
-  it('should log the selected page', () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+  it('should append the next 100 stories when moving forward', () => {
+    component.onPageChange({ pageIndex: 10, pageSize: 10 } as never);
 
-    component.onPageChange({ pageIndex: 1 } as never);
+    expect(apiService.storyCalls).toHaveLength(200);
+    expect(component.queryService.response()?.items).toHaveLength(200);
+    expect(component.dataSource.data[0].id).toBe(101);
+  });
 
-    expect(logSpy).toHaveBeenCalledWith('Page:', 2);
-    logSpy.mockRestore();
+  it('should display the selected slice when moving forward and backward', () => {
+    component.onPageChange({ pageIndex: 1, pageSize: 10 } as never);
+    expect(component.dataSource.data[0].id).toBe(11);
+
+    component.onPageChange({ pageIndex: 0, pageSize: 10 } as never);
+    expect(component.dataSource.data[0].id).toBe(1);
+    expect(apiService.storyCalls).toHaveLength(100);
   });
 });
