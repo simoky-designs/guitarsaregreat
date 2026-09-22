@@ -12,7 +12,7 @@ export interface StoryTypeButtons {
 }
 
 export type NewsItemKey = keyof NewsItem;
-export type StoryTypes = 'topstories' | 'newstories' | 'beststories' | 'comments' | 'askstories' | 'showstories' | 'jobstories' | 'submit';
+export type StoryTypes = 'topStories' | 'newStories' | 'bestStories' | 'comments' | 'askStories' | 'showStories' | 'jobsStories' | 'submit';
 export type TableTypeKey = keyof typeof TABLE_TYPE_LABELS;
 export type TableTypeLabel = (typeof TABLE_TYPE_LABELS)[TableTypeKey];
 export const getTableTypeLabel = (key: TableTypeKey): TableTypeLabel => TABLE_TYPE_LABELS[key];

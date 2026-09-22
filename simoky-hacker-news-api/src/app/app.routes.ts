@@ -3,11 +3,11 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'top',
+    redirectTo: 'topstories',
     pathMatch: 'full',
   },
   {
-    path: 'top',
+    path: 'topstories',
     loadComponent: () =>
       import('./features/news-dashboard/news-dashboard').then(({ NewsDashboard }) => NewsDashboard),
   },

@@ -7,7 +7,7 @@ import {
   APP_NAME,
   STORY_TYPE_BUTTONS,
   TABLE_TYPE_LABELS,
-} from '../../const/app-constants';
+} from '../../const/app-const';
 import { StoryTypes, getTableTypeLabel } from '../../types/componet-types';
 
 @Component({
@@ -23,7 +23,7 @@ export class Header {
     readonly appName = APP_NAME;
     readonly storyTypeLabels = TABLE_TYPE_LABELS;
     readonly storyTypeButtons = STORY_TYPE_BUTTONS;
-    title = signal<string>(TABLE_TYPE_LABELS.top);
+    title = signal<string>(TABLE_TYPE_LABELS.topstories);
     
     setStoryType(storyType: StoryTypes): void{
       this.location.go(storyType);

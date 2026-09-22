@@ -1,5 +1,4 @@
 export const APP_NAME = 'Simoky Hacker News';
-export const NEWS_LOAD_ERROR = 'Failed to load news';
 export const NO_DATA_MESSAGE = 'No data available.';
 export const LOADING_LABEL = 'Loading';
 export const LOGIN_MESSAGE = 'login works!';
@@ -18,13 +17,13 @@ export const TABLE_TYPE_LABELS = {
   score: 'Score',
   descendants: 'Comments',
   time: 'Date',
-  top: 'Top Stories',
-  new: 'New Stories',
-  best: 'Best Stories',
+  topstories: 'Top Stories',
+  newstories: 'New Stories',
+  beststories: 'Best Stories',
   comments: 'Comments',
-  ask: 'Ask',
-  show: 'Show',
-  jobs: 'Jobs',
+  askstories: 'Ask Stories',
+  showstories: 'Show Stories',
+  jobstories: 'Jobs Stories',
   submit: 'Submit',
 } as const;
 
@@ -42,12 +41,12 @@ export const EXPANDED_COLUMNS = [
 ] as const;
 
 export const STORY_TYPE_BUTTONS = [
-  { type: 'top', disabled: false },
-  { type: 'new', disabled: false },
-  { type: 'best', disabled: false },
+  { type: 'topstories', disabled: false },
+  { type: 'newstories', disabled: false },
+  { type: 'beststories', disabled: false },
   { type: 'comments', disabled: true },
-  { type: 'ask', disabled: true },
-  { type: 'show', disabled: true },
-  { type: 'jobs', disabled: true },
+  { type: 'askstories', disabled: false },
+  { type: 'showstories', disabled: false },
+  { type: 'jobstories', disabled: false },
   { type: 'submit', disabled: true },
 ] as const;

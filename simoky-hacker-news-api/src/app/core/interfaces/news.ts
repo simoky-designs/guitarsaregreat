@@ -7,9 +7,9 @@ export interface NewsResponse {
 
 export interface NewsItem {
   id: number;
-  type?: 'story' | 'comment' | 'job' | 'poll' | 'pollopt';
-  by?: string;
-  time?: number;
+  type: 'story' | 'comment' | 'job' | 'poll' | 'pollopt';
+  by: string;
+  time: number;
   title?: string;
   text?: string;
   url?: string;

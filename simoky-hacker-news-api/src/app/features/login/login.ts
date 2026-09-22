@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LOGIN_MESSAGE } from '../../shared/const/app-constants';
+import { LOGIN_MESSAGE } from '../../shared/const/app-const';
 
 @Component({
   imports: [],

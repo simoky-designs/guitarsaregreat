@@ -12,7 +12,7 @@ import {
   TABLE_COLUMNS,
   NO_DATA_MESSAGE,
   APP_NAME,
-} from '../../shared/const/app-constants';
+} from '../../shared/const/app-const';
 
 @Component({
   imports: [Paginator, Table],
@@ -44,12 +44,10 @@ export class NewsDashboard implements OnInit {
 
   onPageChange(event: PageEvent): void {
     this.queryService.onPageChange(event);
-    this.dataSource.data = this.queryService.visibleItems();
   }
 
   onSortChange(sort: Sort): void {
     this.queryService.onSortChange(sort);
-    this.dataSource.data = this.queryService.visibleItems();
   }
 
 }

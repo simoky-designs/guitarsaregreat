@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingService } from '../../../core/services/loading-service';
-import { LOADING_LABEL } from '../../const/app-constants';
+import { LOADING_LABEL } from '../../const/app-const';
 
 @Component({
   imports: [MatProgressSpinnerModule],

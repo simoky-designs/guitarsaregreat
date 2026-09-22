@@ -2,11 +2,10 @@ import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core'
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { defer, forkJoin, map, shareReplay, switchMap } from 'rxjs';
+import { finalize, forkJoin, map, Observable, switchMap } from 'rxjs';
 import { NewsItem, NewsResponse } from '../interfaces/news';
 import { ApiService } from './api-service';
 import { LoadingService } from './loading-service';
-import { NEWS_LOAD_ERROR } from '../../shared/const/app-constants';
 import { StoryTypes } from '../../shared/types/componet-types';
 
 @Injectable({
@@ -14,14 +13,12 @@ import { StoryTypes } from '../../shared/types/componet-types';
 })
 export class NewsQueryService {
   readonly response = signal<NewsResponse | null>(null);
-  readonly error = signal<string | null>(null);
   private readonly loadingService = inject(LoadingService);
   readonly loading = this.loadingService.isLoading;
-
   readonly pageSizeOptions = signal([10, 25, 50]);
   readonly pageSize = signal(25);
   readonly pageIndex = signal(0);
-  readonly storyType = signal<StoryTypes>('top');
+  readonly storyType = signal<StoryTypes>('topstories');
 
   readonly sort = signal<Sort>({
     active: 'score',
@@ -32,7 +29,6 @@ export class NewsQueryService {
   private readonly destroyRef = inject(DestroyRef);
   private readonly apiService = inject(ApiService);
   private loadedChunk = signal(0);
-  private storyIds$ = this.createStoryIdsStream();
 
   readonly visibleItems = computed<NewsItem[]>(() => {
     const response = this.response();
@@ -43,7 +39,6 @@ export class NewsQueryService {
 
     const items = this.sortItems(response.items);
     const start = this.pageIndex() * this.pageSize();
-
     return items.slice(start, start + this.pageSize());
   });
 
@@ -56,61 +51,43 @@ export class NewsQueryService {
     this.response.set(null);
     this.loadedChunk.set(0);
     this.pageIndex.set(0);
-    this.storyIds$ = this.createStoryIdsStream();
     this.load();
-  }
-
-  private createStoryIdsStream() {
-    return defer(() => this.apiService.getStoryIds(this.storyType())).pipe(
-      shareReplay({ bufferSize: 1, refCount: true }),
-    );
   }
 
   load(page = 1): void {
     this.loadingService.show();
-    this.error.set(null);
 
-    this.storyIds$
+    this.apiService
+      .getStoryIds(this.storyType())
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        switchMap((ids) => this.loadChunk(page, ids)),
+        switchMap((ids) => this.getBatchStories(page, ids)),
+        finalize(() => this.loadingService.hide()),
       )
       .subscribe({
         next: (response) => {
-          const previousItems = this.response()?.items ?? [];
-
-          this.response.set({
+          this.response.update((current) => ({
             ...response,
-            items: [...previousItems, ...response.items],
-          });
+            items: [...(current?.items ?? []), ...response.items],
+          }));
 
           this.loadedChunk.set(page);
-        },
-        error: () => {
-          this.error.set(NEWS_LOAD_ERROR);
-          this.loadingService.hide();
-        },
-        complete: () => {
-          this.loadingService.hide();
         },
       });
   }
 
-  private loadChunk(page: number, ids: number[]) {
+  private getBatchStories(page: number, ids: number[]): Observable<NewsResponse> {
     const start = (page - 1) * this.pageChunkSize;
     const end = start + this.pageChunkSize;
     const pageIds = ids.slice(start, end);
 
     return forkJoin(pageIds.map((id) => this.apiService.getStory(id))).pipe(
-      map(
-        (items) =>
-          ({
-            page,
-            nextPage: end < ids.length ? page + 1 : null,
-            total: ids.length,
-            items,
-          }) satisfies NewsResponse,
-      ),
+      map((items) => ({
+        page,
+        nextPage: end < ids.length ? page + 1 : null,
+        total: ids.length,
+        items,
+      })),
     );
   }
 
@@ -125,16 +102,10 @@ export class NewsQueryService {
     }
   }
 
-  /**
-   * Handle table sorting.
-   */
   onSortChange(sort: Sort): void {
     this.sort.set(sort);
   }
 
-  /**
-   * Sort the items currently held in the API window.
-   */
   private sortItems(items: NewsItem[]): NewsItem[] {
     const sort = this.sort();
 
