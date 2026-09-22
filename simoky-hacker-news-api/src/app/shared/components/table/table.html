@@ -1,62 +1,68 @@
 <table
-	mat-table
-	[dataSource]="dataSource"
-	matSort
-	[matSortActive]="sortActive"
-	[matSortDirection]="sortDirection"
-	(matSortChange)="sortChange.emit($event)"
-	multiTemplateDataRows
-	class="mat-shadow-2"
+  mat-table
+  [dataSource]="dataSource"
+  matSort
+  [matSortActive]="sortActive"
+  [matSortDirection]="sortDirection"
+  (matSortChange)="sortChange.emit($event)"
+  multiTemplateDataRows
+  class="mat-shadow-2"
 >
-	@for (column of columns; track column.key) {
-		<ng-container matColumnDef="{{ column.key }}">
-			<th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }}</th>
-			<td mat-cell *matCellDef="let element">{{ element[column.key] }}</td>
-		</ng-container>
-	}
+  @for (column of columns; track column.key) {
+    <ng-container [matColumnDef]="column.key">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }}</th>
+      <td mat-cell *matCellDef="let element">
+        @if (column.key === 'time') {
+           {{ element[column.key] | postedAtDate }}
+        } @else {
+          {{ element[column.key] }}
+        }
+      </td>
+    </ng-container>
+  }
 
-	<ng-container matColumnDef="expand">
-		<th mat-header-cell *matHeaderCellDef [attr.aria-label]="tableAriaLabels.rowActions">&nbsp;</th>
-		<td mat-cell *matCellDef="let element">
-			<button
-				matIconButton
-				[attr.aria-label]="tableAriaLabels.expandRow"
-				(click)="toggle(element); $event.stopPropagation()"
-				class="toggle-button"
-				[class.toggle-button-expanded]="isExpanded(element)"
-			>
-				<mat-icon>keyboard_arrow_down</mat-icon>
-			</button>
-		</td>
-	</ng-container>
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef [attr.aria-label]="tableAriaLabels.rowActions">&nbsp;</th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        matIconButton
+        [attr.aria-label]="tableAriaLabels.expandRow"
+        (click)="toggle(element); $event.stopPropagation()"
+        class="toggle-button"
+        [class.toggle-button-expanded]="isExpanded(element)"
+      >
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
+    </td>
+  </ng-container>
 
-	@if (detailTemplate) {
-		<ng-container matColumnDef="expandedDetail">
-			<td mat-cell *matCellDef="let element" [attr.colspan]="columnsWithExpand.length">
-				<div
-					class="element-detail-wrapper"
-					[class.element-detail-wrapper-expanded]="isExpanded(element)"
-				>
-					<div class="element-detail">
-						<ng-container
-							*ngTemplateOutlet="detailTemplate; context: { $implicit: element }"
-						></ng-container>
-					</div>
-				</div>
-			</td>
-		</ng-container>
-	}
+  @if (detailTemplate) {
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="columnsWithExpand.length">
+        <div
+          class="row-detail-wrapper"
+          [class.row-detail-wrapper-expanded]="isExpanded(element)"
+        >
+          <div class="row-detail">
+            <ng-container
+              *ngTemplateOutlet="detailTemplate; context: { $implicit: element }"
+            ></ng-container>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+  }
 
-	<tr mat-header-row *matHeaderRowDef="columnsWithExpand"></tr>
-	<tr
-		mat-row
-		*matRowDef="let element; let index = dataIndex; columns: columnsWithExpand"
-		class="element-row"
-		[class.second-row]="index % 2 === 1"
-		[class.expanded-row]="isExpanded(element)"
-		(click)="toggle(element)"
-	></tr>
-	@if (detailTemplate) {
-		<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
-	}
+  <tr mat-header-row *matHeaderRowDef="columnsWithExpand"></tr>
+  <tr
+    mat-row
+    *matRowDef="let element; let index = dataIndex; columns: columnsWithExpand"
+    class="expand-table-row"
+    [class.second-row]="index % 2 === 1"
+    [class.expanded-row]="isExpanded(element)"
+    (click)="toggle(element)"
+  ></tr>
+  @if (detailTemplate) {
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+  }
 </table>

@@ -2,20 +2,15 @@
   <h1>{{ appName }}</h1>
 </header>
 <div class="nav-bar">
-  <app-button type="submit" [disabled]="false" (clicked)="setStoryType('top') "
-    >{{ storyTypeLabels.top }}</app-button
-  >
-  <app-button type="submit" [disabled]="false" (clicked)="setStoryType('new')"
-    >{{ storyTypeLabels.new }}</app-button
-  >
-  <app-button type="submit" [disabled]="false" (clicked)="setStoryType('best')"
-    >{{ storyTypeLabels.best }}</app-button
-  >
-  <app-button type="submit" [disabled]="true">{{ disabledNavLabels.comments }}</app-button>
-  <app-button type="submit" [disabled]="true">{{ disabledNavLabels.ask }}</app-button>
-  <app-button type="submit" [disabled]="true">{{ disabledNavLabels.show }}</app-button>
-  <app-button type="submit" [disabled]="true">{{ disabledNavLabels.jobs }}</app-button>
-  <app-button type="submit" [disabled]="true">{{ disabledNavLabels.submit }}</app-button>
+  @for (btn of storyTypeButtons; track btn.type) {
+    <app-button
+      type="button"
+      [disabled]="btn.disabled"
+      (clicked)="setStoryType(btn.type)"
+    >
+      {{ storyTypeLabels[btn.type] }}
+    </app-button>
+  }
 </div>
 <h3 class="title">{{ title() }}</h3>
 

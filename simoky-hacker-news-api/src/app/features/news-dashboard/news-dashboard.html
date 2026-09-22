@@ -16,16 +16,23 @@
     </app-table>
 
     <ng-template #expandedDetail let-element>
-      <div class="element-diagram">
-        <div>
-          <strong>{{ detailLabels.url }}</strong>
-          <a [href]="element.url" target="_blank" rel="noopener">{{ element.url }}</a>
-        </div>
-        <div><strong>{{ detailLabels.domain }}</strong> {{ element.domain || '-' }}</div>
-        <div><strong>{{ detailLabels.points }}</strong> {{ element.points ?? 0 }}</div>
-        <div><strong>{{ detailLabels.comments }}</strong> {{ element.comments ?? 0 }}</div>
-        <div><strong>{{ detailLabels.posted }}</strong> {{ element.postedAt | date }}</div>
+      <div class="expand-row">
+        @for (field of expandedFields; track field) {
+          <div class="expand-col">
+            <h5>{{ field.label }}</h5>
+            <div>
+              @if (field.key === 'url') {
+                <a [href]="element[field.key]" target="_blank" rel="noopener">
+                  {{ element[field.key] || '-' }}
+                </a>
+              } @else {
+                {{ element[field.key] ?? 0 }}
+              }
+            </div>
+          </div>
+        }
       </div>
+      <!-- <app-expanded-detail [element]="element" [fields]="expandedFields"> </app-expanded-detail> -->
     </ng-template>
 
     <app-paginator

@@ -13,9 +13,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TABLE_ARIA_LABELS } from '../../const/app-constants';
-import { TableColumn } from '../../interfaces/componet-interfaces';
+import { PostedAtDatePipe } from '../../pipes/date.pipe';
+import { TableColumn } from '../../types/componet-types';
+
 @Component({
-  imports: [NgTemplateOutlet, MatButtonModule, MatIconModule, MatSortModule, MatTableModule],
+  imports: [
+    NgTemplateOutlet,
+    MatButtonModule,
+    MatIconModule,
+    MatSortModule,
+    MatTableModule,
+    PostedAtDatePipe,
+  ],
   selector: 'app-table',
   styleUrl: './table.scss',
   templateUrl: './table.html',

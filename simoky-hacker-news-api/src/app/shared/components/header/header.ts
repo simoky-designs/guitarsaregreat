@@ -5,11 +5,10 @@ import { Location } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {
   APP_NAME,
-  DISABLED_NAV_LABELS,
-  getStoryTypeLabel,
-  STORY_TYPE_LABELS,
-  StoryType,
+  STORY_TYPE_BUTTONS,
+  TABLE_TYPE_LABELS,
 } from '../../const/app-constants';
+import { StoryTypes, getTableTypeLabel } from '../../types/componet-types';
 
 @Component({
   imports: [Button, MatButtonToggleModule],
@@ -22,13 +21,13 @@ export class Header {
     readonly queryService = inject(NewsQueryService);
     readonly location = inject(Location);
     readonly appName = APP_NAME;
-    readonly disabledNavLabels = DISABLED_NAV_LABELS;
-    readonly storyTypeLabels = STORY_TYPE_LABELS;
-    title = signal<string>(STORY_TYPE_LABELS.top);
+    readonly storyTypeLabels = TABLE_TYPE_LABELS;
+    readonly storyTypeButtons = STORY_TYPE_BUTTONS;
+    title = signal<string>(TABLE_TYPE_LABELS.top);
     
-    setStoryType(storyType: StoryType): void{
+    setStoryType(storyType: StoryTypes): void{
       this.location.go(storyType);
-      this.title.set(getStoryTypeLabel(storyType));
+      this.title.set(getTableTypeLabel(storyType));
       this.queryService.setStoryType(storyType);
     }
 }

@@ -4,19 +4,18 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Sort } from '@angular/material/sort';
 import { NewsItem } from '../../core/interfaces/news';
 import { LoadingService } from '../../core/services/loading-service';
-import { PostedAtDatePipe } from '../../shared/pipes/date.pipe';
 import { Paginator } from '../../shared/components/paginator/paginator';
 import { Table } from '../../shared/components/table/table';
 import { NewsQueryService } from '../../core/services/news-query-service';
 import {
-  DASHBOARD_TITLE,
-  DETAIL_LABELS,
-  NEWS_TABLE_COLUMNS,
+  EXPANDED_COLUMNS,
+  TABLE_COLUMNS,
   NO_DATA_MESSAGE,
+  APP_NAME,
 } from '../../shared/const/app-constants';
 
 @Component({
-  imports: [PostedAtDatePipe, Paginator, Table],
+  imports: [Paginator, Table],
   selector: 'app-news-dashboard',
   styleUrl: './news-dashboard.scss',
   templateUrl: './news-dashboard.html',
@@ -25,12 +24,12 @@ import {
 export class NewsDashboard implements OnInit {
   readonly queryService = inject(NewsQueryService);
   readonly loadingService = inject(LoadingService);
-  dataSource = new MatTableDataSource<NewsItem>([]);
-  columnsToDisplay = NEWS_TABLE_COLUMNS;
-  readonly detailLabels = DETAIL_LABELS;
+  readonly columnsToDisplay = TABLE_COLUMNS;
+  readonly expandedFields = EXPANDED_COLUMNS;
   readonly noDataMessage = NO_DATA_MESSAGE;
-  title = signal(DASHBOARD_TITLE);
+  title = signal(APP_NAME);
   showFirstLastButtons = signal(false);
+  dataSource = new MatTableDataSource<NewsItem>([]);
   pageSizeOptions = this.queryService.pageSizeOptions();
   pageIndex = this.queryService.pageIndex;
   pageSize = this.queryService.pageSize;
@@ -52,5 +51,6 @@ export class NewsDashboard implements OnInit {
     this.queryService.onSortChange(sort);
     this.dataSource.data = this.queryService.visibleItems();
   }
+
 }
 

@@ -6,7 +6,8 @@ import { defer, forkJoin, map, shareReplay, switchMap } from 'rxjs';
 import { NewsItem, NewsResponse } from '../interfaces/news';
 import { ApiService } from './api-service';
 import { LoadingService } from './loading-service';
-import { NEWS_LOAD_ERROR, STORY_TYPES, StoryType } from '../../shared/const/app-constants';
+import { NEWS_LOAD_ERROR } from '../../shared/const/app-constants';
+import { StoryTypes } from '../../shared/types/componet-types';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class NewsQueryService {
   readonly pageSizeOptions = signal([10, 25, 50]);
   readonly pageSize = signal(25);
   readonly pageIndex = signal(0);
-  readonly storyType = signal<StoryType>(STORY_TYPES.top);
+  readonly storyType = signal<StoryTypes>('top');
 
   readonly sort = signal<Sort>({
     active: 'score',
@@ -46,7 +47,7 @@ export class NewsQueryService {
     return items.slice(start, start + this.pageSize());
   });
 
-  setStoryType(storyType: StoryType): void {
+  setStoryType(storyType: StoryTypes): void {
     if (this.storyType() === storyType) {
       return;
     }

@@ -2,20 +2,25 @@ import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'date',
+  name: 'postedAtDate',
   standalone: true,
 })
 export class PostedAtDatePipe implements PipeTransform {
   private readonly datePipe = new DatePipe('en-US');
 
   transform(
-    value: string | null | undefined,
-    format = 'mediumDate'
+    value: number | string | null | undefined,
+    format = 'mediumDate',
   ): string {
-    if (!value || Number.isNaN(Date.parse(value))) {
+    if (value == null || value === '') {
       return '-';
     }
 
-    return this.datePipe.transform(value, format) ?? '-';
+    const timestamp = Number(value);
+
+    if (Number.isNaN(timestamp)) {
+      return '-';
+    }
+    return this.datePipe.transform(timestamp * 1000, format) ?? '-';
   }
 }

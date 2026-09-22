@@ -1,12 +1,21 @@
-.element-diagram {
-	display: grid;
-	gap: 8px;
+.expand-row {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  .expand-col {
+    display: flex;
+    flex-direction: column;
+    margin: 0 2rem 2rem;
+  }
+  .expand-label {
+    font-weight: bold;
+  }
 }
 
-.no-data-container{
-	display: flex;
-	height: 100vh;
-	justify-content: center;
-	align-items: center;
-	font-weight: bold;
+.no-data-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 }
