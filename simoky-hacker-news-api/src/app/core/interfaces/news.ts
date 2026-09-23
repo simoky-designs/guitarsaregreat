@@ -2,6 +2,7 @@ export interface NewsResponse {
   page: number;
   nextPage: number | null;
   total: number;
+  ids: number[][];
   items: NewsItem[];
 }
 

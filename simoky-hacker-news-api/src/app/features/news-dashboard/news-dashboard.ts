@@ -28,7 +28,7 @@ export class NewsDashboard implements OnInit {
   readonly expandedFields = EXPANDED_COLUMNS;
   readonly noDataMessage = NO_DATA_MESSAGE;
   title = signal(APP_NAME);
-  showFirstLastButtons = signal(false);
+  showFirstLastButtons = signal(true);
   dataSource = new MatTableDataSource<NewsItem>([]);
   pageSizeOptions = this.queryService.pageSizeOptions();
   pageIndex = this.queryService.pageIndex;
