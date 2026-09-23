@@ -8,7 +8,7 @@ import {
   STORY_TYPE_BUTTONS,
   TABLE_TYPE_LABELS,
 } from '../../const/app-const';
-import { StoryTypes, getTableTypeLabel } from '../../types/componet-types';
+import { StoryType, getTableTypeLabel } from '../../types/componet-types';
 
 @Component({
   imports: [Button, MatButtonToggleModule],
@@ -24,10 +24,12 @@ export class Header {
     readonly storyTypeLabels = TABLE_TYPE_LABELS;
     readonly storyTypeButtons = STORY_TYPE_BUTTONS;
     title = signal<string>(TABLE_TYPE_LABELS.topstories);
+    storyType = signal<StoryType>('topstories');
     
-    setStoryType(storyType: StoryTypes): void{
+    setStoryType(storyType: StoryType): void{
       this.location.go(storyType);
       this.title.set(getTableTypeLabel(storyType));
       this.queryService.setStoryType(storyType);
+      this.storyType.set(storyType);
     }
 }

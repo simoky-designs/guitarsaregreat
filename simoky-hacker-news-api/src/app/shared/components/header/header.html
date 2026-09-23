@@ -1,10 +1,11 @@
 <header class="global-header">
   <h1>{{ appName }}</h1>
 </header>
-<div class="nav-bar">
+<div class="nav-bar"  aria-label="Story type filters">
   @for (btn of storyTypeButtons; track btn.type) {
     <app-button
       type="button"
+      [pressed]="btn.type === storyType()"
       [disabled]="btn.disabled"
       (clicked)="setStoryType(btn.type)"
     >
@@ -12,5 +13,5 @@
     </app-button>
   }
 </div>
-<h3 class="title">{{ title() }}</h3>
+<h2 class="title">{{ title() }}</h2>
 

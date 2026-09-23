@@ -6,7 +6,7 @@ import { finalize, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { NewsItem, NewsResponse } from '../interfaces/news';
 import { ApiService } from './api-service';
 import { LoadingService } from './loading-service';
-import { StoryTypes } from '../../shared/types/componet-types';
+import { StoryType } from '../../shared/types/componet-types';
 @Injectable({ providedIn: 'root' })
 export class NewsQueryService {
   readonly response = signal<NewsResponse | null>(null);
@@ -17,7 +17,7 @@ export class NewsQueryService {
   readonly pageSizeOptions = signal([10, 25, 50]);
   readonly pageSize = signal(25);
   readonly pageIndex = signal(0);
-  readonly storyType = signal<StoryTypes>('topstories');
+  readonly storyType = signal<StoryType>('topstories');
   readonly sortValues = signal<Sort>({ active: 'score', direction: 'asc' });
   private readonly pageChunkSize = 100;
   private readonly loadedIds = signal<number[]>([]);
@@ -32,7 +32,7 @@ export class NewsQueryService {
     return items.slice(start, start + this.pageSize());
   });
 
-  setStoryType(storyType: StoryTypes): void {
+  setStoryType(storyType: StoryType): void {
     if (this.storyType() === storyType) {
       return;
     }

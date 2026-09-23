@@ -6,6 +6,7 @@ export const LOGIN_MESSAGE = 'login works!';
 export const TABLE_ARIA_LABELS = {
   rowActions: 'row actions',
   expandRow: 'expand row',
+  collapseRow: 'collapse row',
 } as const;
 
 export const TABLE_TYPE_LABELS = {
@@ -15,7 +16,7 @@ export const TABLE_TYPE_LABELS = {
   title: 'Title',
   url: 'URL',
   score: 'Score',
-  descendants: 'Comments',
+  descendants: 'Descendants',
   time: 'Date',
   topstories: 'Top Stories',
   newstories: 'New Stories',
@@ -37,7 +38,7 @@ export const TABLE_COLUMNS = [
 export const EXPANDED_COLUMNS = [
   { key: 'url', label: TABLE_TYPE_LABELS.url },
   { key: 'type', label: TABLE_TYPE_LABELS.type },
-  { key: 'comments', label: TABLE_TYPE_LABELS.comments },
+  { key: 'descendants', label: TABLE_TYPE_LABELS.descendants },
 ] as const;
 
 export const STORY_TYPE_BUTTONS = [

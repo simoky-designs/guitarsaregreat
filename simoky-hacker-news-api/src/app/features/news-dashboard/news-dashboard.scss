@@ -1,14 +1,18 @@
 .expand-row {
   display: flex;
   width: 100%;
-  margin: 0;
+  margin: 1rem 0;
   .expand-col {
     display: flex;
     flex-direction: column;
+    width: 25%;
     margin: 0 2rem 2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .expand-label {
     font-weight: bold;
+    font-size: small;
   }
 }
 

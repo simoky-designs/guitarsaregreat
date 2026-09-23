@@ -4,7 +4,7 @@ import { vi } from 'vitest';
 
 import { Header } from './header';
 import { NewsQueryService } from '../../../core/services/news-query-service';
-import { StoryTypes } from '../../types/componet-types';
+import { StoryType } from '../../types/componet-types';
 import { TABLE_TYPE_LABELS } from '../../const/app-const';
 
 describe('Header', () => {
@@ -55,7 +55,7 @@ describe('Header', () => {
 
   describe('setStoryType', () => {
     it('should update the browser location', () => {
-      const storyType: StoryTypes = 'beststories';
+      const storyType: StoryType = 'beststories';
 
       component.setStoryType(storyType);
 
@@ -63,7 +63,7 @@ describe('Header', () => {
     });
 
     it('should update the title', () => {
-      const storyType: StoryTypes = 'beststories';
+      const storyType: StoryType = 'beststories';
 
       component.setStoryType(storyType);
 
@@ -71,7 +71,7 @@ describe('Header', () => {
     });
 
     it('should update the story type in the query service', () => {
-      const storyType: StoryTypes = 'beststories';
+      const storyType: StoryType = 'beststories';
 
       component.setStoryType(storyType);
 
@@ -79,7 +79,7 @@ describe('Header', () => {
     });
 
     it('should update location, title and query service', () => {
-      const storyType: StoryTypes = 'newstories';
+      const storyType: StoryType = 'newstories';
 
       component.setStoryType(storyType);
 

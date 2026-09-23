@@ -12,4 +12,5 @@ export class Button {
   @Input() disabled = false;
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
   @Output() clicked = new EventEmitter<MouseEvent>();
+  @Input() pressed: boolean | null = null;
 }
