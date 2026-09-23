@@ -1,8 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
+
 import { ApiService } from './api-service';
 import { NewsItem } from '../interfaces/news';
+import { environment } from '../../../environments/environment';
 
 describe('ApiService', () => {
   let service: ApiService;
@@ -10,7 +15,11 @@ describe('ApiService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        ApiService,
+      ],
     });
 
     service = TestBed.inject(ApiService);
@@ -21,67 +30,100 @@ describe('ApiService', () => {
     httpTesting.verify();
   });
 
-  it('should be created', () => {
+  it('should create', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should GET the story IDs for the requested type', () => {
-    const storyIds = [1, 2, 3, 4];
+  describe('getStoryIds', () => {
+    it('should GET story IDs for the requested story type', () => {
+      const storyType = 'topstories';
+      const storyIds = [1, 2, 3, 4];
 
-    service.getStoryIds('topstories').subscribe((ids) => {
-      expect(ids).toEqual(storyIds);
+      service.getStoryIds(storyType).subscribe((ids) => {
+        expect(ids).toEqual(storyIds);
+      });
+
+      const req = httpTesting.expectOne(
+        `${environment.apiUrl}/${storyType}.json`,
+      );
+
+      expect(req.request.method).toBe('GET');
+
+      req.flush(storyIds);
     });
 
-    const req = httpTesting.expectOne(`${service['apiUrl']}/${'topstories'}.json`);
+    it('should return a custom error when loading story IDs fails', () => {
+      const storyType = 'beststories';
 
-    expect(req.request.method).toBe('GET');
+      service.getStoryIds(storyType).subscribe({
+        next: () => {
+          expect.fail('Expected request to fail');
+        },
+        error: (error: Error) => {
+          expect(error).toBeInstanceOf(Error);
+          expect(error.message).toBe('Failed to load story IDs');
+        },
+      });
 
-    req.flush(storyIds);
+      const req = httpTesting.expectOne(
+        `${environment.apiUrl}/${storyType}.json`,
+      );
+
+      req.flush('Server error', {
+        status: 500,
+        statusText: 'Server Error',
+      });
+    });
   });
 
-  it('should propagate an error when getting story IDs fails', () => {
+  describe('getStory', () => {
+    it('should GET a story by ID', () => {
+      const storyId = 123;
 
-    service.getStoryIds('beststories').subscribe({
-      next: () => expect.fail('Expected an error'),
-      error: (error) => {
-        expect(error.status).toBe(500);
-        expect(error.statusText).toBe('Server Error');
-      },
+      const story: NewsItem = {
+        id: storyId,
+        type: 'story',
+        time: 1234567890,
+        title: 'Test story',
+        by: 'tester',
+        score: 10,
+        url: 'https://example.com',
+      };
+
+      service.getStory(storyId).subscribe((result) => {
+        expect(result).toEqual(story);
+      });
+
+      const req = httpTesting.expectOne(
+        `${environment.apiUrl}/item/${storyId}.json`,
+      );
+
+      expect(req.request.method).toBe('GET');
+
+      req.flush(story);
     });
-    const req = httpTesting.expectOne(`${service['apiUrl']}/${'beststories'}.json`);
-    req.flush('Something went wrong', { status: 500, statusText: 'Server Error' });
-  });
 
-  it('should GET a story by ID', () => {
-    const storyId = 123;
+    it('should return a custom error when loading a story fails', () => {
+      const storyId = 123;
 
-    const story: NewsItem = {
-      id: storyId,
-      title: 'Test story',
-      url: 'https://example.com',
-    } as NewsItem;
+      service.getStory(storyId).subscribe({
+        next: () => {
+          expect.fail('Expected request to fail');
+        },
+        error: (error: Error) => {
+          expect(error).toBeInstanceOf(Error);
+          expect(error.message).toBe(`Failed to load story ${storyId}`);
+        },
+      });
 
-    service.getStory(storyId).subscribe((result) => {
-      expect(result).toEqual(story);
+      const req = httpTesting.expectOne(
+        `${environment.apiUrl}/item/${storyId}.json`,
+      );
+
+      req.flush('Story not found', {
+        status: 404,
+        statusText: 'Not Found',
+      });
     });
-
-    const req = httpTesting.expectOne(`${service['apiUrl']}/item/${storyId}.json`);
-
-    expect(req.request.method).toBe('GET');
-
-    req.flush(story);
-  });
-
-  it('should propagate an error when getting a story fails', () => {
-    const storyId = 123;
-    service.getStory(storyId).subscribe({
-      next: () => expect.fail('Expected an error'),
-      error: (error) => {
-        expect(error.status).toBe(404);
-        expect(error.statusText).toBe('Not Found');
-      },
-    });
-    const req = httpTesting.expectOne(`${service['apiUrl']}/item/${storyId}.json`);
-    req.flush('Story not found', { status: 404, statusText: 'Not Found' });
   });
 });

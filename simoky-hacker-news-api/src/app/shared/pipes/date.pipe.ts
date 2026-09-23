@@ -8,19 +8,23 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class PostedAtDatePipe implements PipeTransform {
   private readonly datePipe = new DatePipe('en-US');
 
-  transform(
-    value: number | string | null | undefined,
-    format = 'mediumDate',
-  ): string {
+  transform(value: number | string | null | undefined, format = 'mediumDate'): string {
     if (value == null || value === '') {
       return '-';
     }
 
-    const timestamp = Number(value);
+    let date: Date | number;
 
-    if (Number.isNaN(timestamp)) {
-      return '-';
+    if (typeof value === 'number' || !Number.isNaN(Number(value))) {
+      date = Number(value) * 1000;
+    } else {
+      date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return '-';
+      }
     }
-    return this.datePipe.transform(timestamp * 1000, format) ?? '-';
+
+    return this.datePipe.transform(date, format) ?? '-';
   }
 }

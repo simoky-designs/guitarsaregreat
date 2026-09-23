@@ -11,8 +11,4 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/news-dashboard/news-dashboard').then(({ NewsDashboard }) => NewsDashboard),
   },
-  {
-    path: 'login',
-    loadComponent: () => import('./features/login/login').then(({ Login }) => Login),
-  },
 ];
